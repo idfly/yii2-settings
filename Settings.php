@@ -117,6 +117,9 @@ class Settings
                 $settingValue = $settingValue[$settingKey];
             }
         } else {
+            if(empty($settings[$key])) {
+                return $default;
+            }
             $settingValue = $settings[$key];
         }
 
