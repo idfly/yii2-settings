@@ -30,7 +30,7 @@ class Settings
     private static function getSettings()
     {
         if(self::$getSettings !== null) {
-            $callback = self::$getSettings; 
+            $callback = self::$getSettings;
             return $callback();
         }
 
@@ -103,24 +103,21 @@ class Settings
     {
         $settings = self::getSettings();
 
-        if(is_array($key)) {
-            $settingValue = $settings;
-            foreach($key as $settingKey) {
-                if(!is_array($settingValue)) {
-                    throw new Exception(
-                        'Настройка "' . $settingKey . '" не может быть считана.'
-                    );
-                }
-                if(empty($settingValue[$settingKey])) {
-                    return $default;
-                }
-                $settingValue = $settingValue[$settingKey];
+        if(!is_array($key)) {
+            $key = [$key];
+        }
+
+        $settingValue = $settings;
+        foreach($key as $settingKey) {
+            if(!is_array($settingValue)) {
+                throw new Exception(
+                    'Настройка "' . $settingKey . '" не может быть считана.'
+                );
             }
-        } else {
-            if(empty($settings[$key])) {
+            if(empty($settingValue[$settingKey])) {
                 return $default;
             }
-            $settingValue = $settings[$key];
+            $settingValue = $settingValue[$settingKey];
         }
 
         if(!empty($settingValue)) {
