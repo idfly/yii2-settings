@@ -1,0 +1,25 @@
+{
+    "name": "idfly/yii2-settings",
+    "description": "Settings Module",
+    "type": "library",
+    "keywords": [
+        "yii2",
+        "extension"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Roman Openyshev",
+            "homepage": "idfly.ru",
+            "email": "r.openyshev@idfly.ru"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "idfly\\settings\\": ""
+        }
+    }
+}
