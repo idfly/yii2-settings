@@ -11,12 +11,10 @@ use yii\base\Exception;
  */
 class Settings
 {
-    public static $settingsFile = '/config/settings.json';
-
-    private static function getSettings()
+    private static function getSettingsFile()
     {
         $path = \Yii::getAlias('@app');
-        $settingsFile = $path . self::$settingsFile;
+        $settingsFile = $path . '/config/settings.json';
 
         if(!file_exists($settingsFile)) {
             throw new Exception(
@@ -24,8 +22,25 @@ class Settings
             );
         }
 
+        return $settingsFile;
+    }
+
+    private static function getSettings()
+    {
+        $settingsFile = self::getSettingsFile();
+
         $json = file_get_contents($settingsFile);
-        return json_decode($json);
+        return json_decode($json, true);
+    }
+
+    private static function setSettings($settings)
+    {
+        $settingsFile = self::getSettingsFile();
+
+        file_put_contents(
+            $settingsFile,
+            json_encode($settings, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)
+        );
     }
 
     /**
@@ -48,21 +63,18 @@ class Settings
     public static function set($key, $value)
     {
         $settings = self::getSettings();
+
         if(is_array($key)) {
-            $resultKey = implode('->', $key);
-            var_dump($settings->{'key->key1->key2->key3'});
-            var_dump($settings->{$resultKey});die;
+            $current = &$settings;
+            foreach(array_slice($key, 0, sizeof($key) - 1) as $keyPart) {
+                $current = &$current[$keyPart];
+            };
+            $current[$key[sizeof($key) - 1]] = $value;
         } else {
             $settings->$key = $value;
         }
 
-        $path = \Yii::getAlias('@app');
-        $settingsFile = $path . self::$settingsFile;
-
-        file_put_contents(
-            $settingsFile,
-            json_encode($settings, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)
-        );
+        self::setSettings($settings);
     }
 
     /**
@@ -87,15 +99,15 @@ class Settings
         if(is_array($key)) {
             $settingValue = $settings;
             foreach($key as $settingKey) {
-                if(empty($settingValue->$settingKey)) {
+                if(empty($settingValue[$settingKey])) {
                     throw new Exception(
                         'Настройка "' . $settingKey . '" найдена.'
                     );
                 }
-                $settingValue = $settingValue->$settingKey;
+                $settingValue = $settingValue[$settingKey];
             }
         } else {
-            $settingValue = $settings->$key;
+            $settingValue = $settings[$key];
         }
 
         if(!empty($settingValue)) {
@@ -106,12 +118,3 @@ class Settings
     }
 
 }
-
-// Usage
-
-//Settings::set('mysettings', ["key1" => "value1", "key2" => "value2"]);
-//Settings::set(['mysettings', 'key1'], "value"); // array form
-
-//$settings = Settings::get('mysettings');
-//$settings = Settings::get('mysettings', ['key' => 'value']);
-//$key1 = Settings::get(['mysettings', 'key1']);
