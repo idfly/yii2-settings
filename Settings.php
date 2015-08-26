@@ -11,6 +11,8 @@ use yii\base\Exception;
  */
 class Settings
 {
+    public static $getSettings = null;
+
     private static function getSettingsFile()
     {
         $path = \Yii::getAlias('@app');
@@ -27,6 +29,11 @@ class Settings
 
     private static function getSettings()
     {
+        if(self::$getSettings !== null) {
+            $callback = self::$getSettings; 
+            return $callback();
+        }
+
         $settingsFile = self::getSettingsFile();
 
         $json = file_get_contents($settingsFile);
