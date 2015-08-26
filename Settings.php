@@ -54,8 +54,8 @@ class Settings
      *
      * ['settings' => ['key' => 'value']]
      *
-     * На все непонятные ситуации выбрасывать исключение. Настройки сохраняются
-     * с флагами JSON_UNESCAPED_UNICODE и JSON_PRETTY_PRINT.
+     * Настройки сохраняются с флагами JSON_UNESCAPED_UNICODE и
+     * JSON_PRETTY_PRINT.
      *
      * @param string|array $key
      * @param mixed $value
@@ -101,7 +101,7 @@ class Settings
             foreach($key as $settingKey) {
                 if(empty($settingValue[$settingKey])) {
                     throw new Exception(
-                        'Настройка "' . $settingKey . '" найдена.'
+                        'Настройка "' . $settingKey . '" не найдена.'
                     );
                 }
                 $settingValue = $settingValue[$settingKey];
