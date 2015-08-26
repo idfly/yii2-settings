@@ -64,15 +64,15 @@ class Settings
     {
         $settings = self::getSettings();
 
-        if(is_array($key)) {
-            $current = &$settings;
-            foreach(array_slice($key, 0, sizeof($key) - 1) as $keyPart) {
-                $current = &$current[$keyPart];
-            };
-            $current[$key[sizeof($key) - 1]] = $value;
-        } else {
-            $settings->$key = $value;
+        if(!is_array($key)) {
+            $key = [$key];
         }
+
+        $current = &$settings;
+        foreach(array_slice($key, 0, sizeof($key) - 1) as $keyPart) {
+            $current = &$current[$keyPart];
+        };
+        $current[$key[sizeof($key) - 1]] = $value;
 
         self::setSettings($settings);
     }
