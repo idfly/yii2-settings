@@ -1,10 +1,12 @@
 <?php
 
-namespace idfly\settings;
+namespace idfly\settings\models;
+
+use idfly\settings\Settings;
 
 abstract class Model extends \yii\base\Model {
 
-    protected $key = []; // where to save or load attributes
+    protected $keys = []; // where to save or load attributes
 
     /**
      * Returns default form fields for configuration editing
@@ -12,7 +14,7 @@ abstract class Model extends \yii\base\Model {
      */
     public static function getFormFields()
     {
-
+        return [];
     }
 
     /**
@@ -20,7 +22,9 @@ abstract class Model extends \yii\base\Model {
      */
     public function init()
     {
-
+        foreach($this->keys as $key) {
+            $this->$key = Settings::get($key);
+        }
     }
 
     /**
@@ -28,7 +32,9 @@ abstract class Model extends \yii\base\Model {
      */
     public function save()
     {
-
+        foreach($this->attributes() as $attribute) {
+            Settings::set($attribute, $this->{$attribute});
+        }
     }
 
 }

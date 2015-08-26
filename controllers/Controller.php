@@ -1,6 +1,6 @@
 <?php
 
-namespace idfly\settings;
+namespace idfly\settings\controllers;
 
 class Controller extends \idfly\components\AdminController
 {
@@ -16,7 +16,21 @@ class Controller extends \idfly\components\AdminController
      */
     public function actionEdit($modelName)
     {
+        $model = new $modelName;
+        if(\Yii::$app->request->isPost) {
+            $reflect = new \ReflectionClass($model);
+            $class = $reflect->getShortName();
+            $model->setAttributes($_POST[$class]);
+            $model->save();
+        }
 
+        $model->init();
+        $fields = $modelName::getFormFields();
+
+        return $this->render('/settings/form', [
+            'model' => $model,
+            'fields' => $fields
+        ]);
     }
 
 }

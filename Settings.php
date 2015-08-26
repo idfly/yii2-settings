@@ -99,10 +99,13 @@ class Settings
         if(is_array($key)) {
             $settingValue = $settings;
             foreach($key as $settingKey) {
-                if(empty($settingValue[$settingKey])) {
+                if(!is_array($settingValue)) {
                     throw new Exception(
-                        'Настройка "' . $settingKey . '" не найдена.'
+                        'Настройка "' . $settingKey . '" не может быть считана.'
                     );
+                }
+                if(empty($settingValue[$settingKey])) {
+                    return $default;
                 }
                 $settingValue = $settingValue[$settingKey];
             }
