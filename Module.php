@@ -1,7 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: openyshev
- * Date: 26.08.15
- * Time: 10:37
- */
+
+namespace idfly\settings;
+
+class Module extends \yii\base\Module {
+
+    public function init() {
+        parent::init();
+    }
+}

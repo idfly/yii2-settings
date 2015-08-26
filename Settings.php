@@ -56,9 +56,9 @@ class Settings
 
 // Usage
 
-Settings::set('mysettings', ["key1" => "value1", "key2" => "value2"]);
-Settings::set(['mysettings', 'key1'], "value"); // array form
+//Settings::set('mysettings', ["key1" => "value1", "key2" => "value2"]);
+//Settings::set(['mysettings', 'key1'], "value"); // array form
 
-$settings = Settings::get('mysettings');
-$settings = Settings::get('mysettings', ['key' => 'value']);
-$key1 = Settings::get(['mysettings', 'key1']);
+//$settings = Settings::get('mysettings');
+//$settings = Settings::get('mysettings', ['key' => 'value']);
+//$key1 = Settings::get(['mysettings', 'key1']);
