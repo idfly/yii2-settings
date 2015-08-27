@@ -30,7 +30,7 @@ class Settings
     private static function getSettings()
     {
         if(self::$getSettings !== null) {
-            $callback = self::$getSettings; 
+            $callback = self::$getSettings;
             return $callback();
         }
 
@@ -78,7 +78,7 @@ class Settings
         $current = &$settings;
         foreach(array_slice($key, 0, sizeof($key) - 1) as $keyPart) {
             $current = &$current[$keyPart];
-        };
+        }
         $current[$key[sizeof($key) - 1]] = $value;
 
         self::setSettings($settings);

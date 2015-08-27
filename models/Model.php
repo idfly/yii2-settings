@@ -4,9 +4,14 @@ namespace idfly\settings\models;
 
 use idfly\settings\Settings;
 
-abstract class Model extends \yii\base\Model {
+abstract class Model extends \yii\base\Model
+{
+    protected $title = 'Настройки';
 
-    protected $keys = []; // where to save or load attributes
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
     /**
      * Returns default form fields for configuration editing
@@ -22,8 +27,8 @@ abstract class Model extends \yii\base\Model {
      */
     public function init()
     {
-        foreach($this->keys as $key) {
-            $this->$key = Settings::get($key);
+        foreach($this->attributes() as $attribute) {
+            $this->$attribute = Settings::get(explode('_', $attribute));
         }
     }
 
@@ -33,8 +38,42 @@ abstract class Model extends \yii\base\Model {
     public function save()
     {
         foreach($this->attributes() as $attribute) {
-            Settings::set($attribute, $this->{$attribute});
+            Settings::set(explode('_', $attribute), $this->{$attribute});
         }
     }
 
+    public function getFormField($form, $attribute, $field)
+    {
+        if(empty($field['type'])) {
+            $field['type'] = 'text';
+        }
+
+        if(empty($field['options'])) {
+            $field['options'] = [];
+        }
+
+        switch($field['type']) {
+            case 'textarea':
+                $formField =
+                    $form->field($this, $attribute)->
+                    textarea($field['options']);
+                break;
+            case 'checkbox':
+                $formField =
+                    $form->field($this, $attribute)->
+                    checkbox($field['options']);
+                break;
+            case 'text':
+                $formField =
+                    $form->field($this, $attribute)->
+                    textInput($field['options']);
+                break;
+            default:
+                $formField =
+                    $form->field($this, $attribute)->
+                    textInput($field['options']);
+        }
+
+        return $formField;
+    }
 }
