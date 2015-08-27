@@ -2,6 +2,8 @@
 
 namespace idfly\settings\controllers;
 
+use idfly\settings\Settings;
+
 class Controller extends \idfly\components\AdminController
 {
     /**

@@ -11,7 +11,17 @@ use yii\base\Exception;
  */
 class Settings
 {
+    public static $settingsInstance;
     public static $getSettings = null;
+    public static $settings;
+
+    public function __construct()
+    {
+        $settingsFile = self::getSettingsFile();
+        $json = file_get_contents($settingsFile);
+        echo 'init..';
+        self::$settings = json_decode($json, true);
+    }
 
     private static function getSettingsFile()
     {
@@ -34,15 +44,18 @@ class Settings
             return $callback();
         }
 
-        $settingsFile = self::getSettingsFile();
+        if(is_null(self::$settingsInstance)) {
+            self::$settingsInstance = new Settings();
+        }
 
-        $json = file_get_contents($settingsFile);
-        return json_decode($json, true);
+        return self::$settings;
     }
 
     private static function setSettings($settings)
     {
         $settingsFile = self::getSettingsFile();
+
+        self::$settings = $settings;
 
         file_put_contents(
             $settingsFile,
