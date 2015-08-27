@@ -17,12 +17,13 @@
     </div>
     <div class="panel-body">
         <?php
+        $class = get_class($model);
         $form = new \idfly\porto\ActiveForm();
         $form->begin();
         ?>
         <?= $form->errorSummary($model); ?>
-        <?php foreach($fields as $attribute => $field) : ?>
-            <?= $model->getFormField($form, $attribute, $field); ?>
+        <?php foreach($class::getFormFields($form, $model) as $field) : ?>
+            <?= $field ?>
         <?php endforeach ?>
         <div class="row">
             <div class="col-sm-3 col-sm-offset-3">

@@ -41,39 +41,4 @@ abstract class Model extends \yii\base\Model
             Settings::set(explode('_', $attribute), $this->{$attribute});
         }
     }
-
-    public function getFormField($form, $attribute, $field)
-    {
-        if(empty($field['type'])) {
-            $field['type'] = 'text';
-        }
-
-        if(empty($field['options'])) {
-            $field['options'] = [];
-        }
-
-        switch($field['type']) {
-            case 'textarea':
-                $formField =
-                    $form->field($this, $attribute)->
-                    textarea($field['options']);
-                break;
-            case 'checkbox':
-                $formField =
-                    $form->field($this, $attribute)->
-                    checkbox($field['options']);
-                break;
-            case 'text':
-                $formField =
-                    $form->field($this, $attribute)->
-                    textInput($field['options']);
-                break;
-            default:
-                $formField =
-                    $form->field($this, $attribute)->
-                    textInput($field['options']);
-        }
-
-        return $formField;
-    }
 }

@@ -27,11 +27,9 @@ class Controller extends \idfly\components\AdminController
         }
 
         $model->init();
-        $fields = $modelName::getFormFields();
 
         return $this->render('@vendor/idfly/yii2-settings/views/form', [
-            'model' => $model,
-            'fields' => $fields
+            'model' => $model
         ]);
     }
 }
