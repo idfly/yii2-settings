@@ -19,7 +19,6 @@ class Settings
     {
         $settingsFile = self::getSettingsFile();
         $json = file_get_contents($settingsFile);
-        echo 'init..';
         self::$settings = json_decode($json, true);
     }
 
