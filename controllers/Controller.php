@@ -19,9 +19,10 @@ class Controller extends \idfly\components\AdminController
         if(\Yii::$app->request->isPost) {
             $reflect = new \ReflectionClass($model);
             $class = $reflect->getShortName();
-            $model->setAttributes($_POST[$class]);
+            $model->load(\Yii::$app->request->post(), $class);
             if($model->validate()) {
                 $model->save();
+                $this->_redirectBack();
             }
         }
 
