@@ -17,7 +17,7 @@ abstract class Model extends \yii\base\Model
      * Returns default form fields for configuration editing
      * @return array
      */
-    public static function getFormFields()
+    public static function getFormFields($form, $element)
     {
         return [];
     }
