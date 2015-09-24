@@ -24,7 +24,7 @@ class Settings
 
     private static function getSettingsFile()
     {
-        $path = \Yii::getAlias('@app');
+        $path = \Yii::getAlias('@yii') . '/../../..';
         $settingsFile = $path . '/config/settings.json';
 
         if(!file_exists($settingsFile)) {
